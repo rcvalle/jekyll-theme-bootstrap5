@@ -1,0 +1,7 @@
+{% if include.post.categories %}
+  <span>
+    {% for category in include.post.categories %}
+      <a href="{{ category | category_url }}">{{ category | capitalize }}</a>
+    {% endfor %}
+  </span>
+{% endif %}

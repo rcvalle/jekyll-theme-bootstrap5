@@ -1,0 +1,17 @@
+<ul>
+  {% if page.type == "home" and paginator.page == 1 %}
+    <li><a href="{{ "/" | relative_url }}">{{ page.title | liquify }}</a></li>
+  {% else %}
+    <li><a href="{{ "/" | relative_url }}">{{ page.title | liquify }}</a></li>
+  {% endif %}
+  {% assign pages = site.pages | sort: 'title' %}
+  {% for item in pages %}
+    {% if item.type == "page" %}
+      {% if item.title == page.title %}
+        <li><a href="{{ item.url | relative_url }}">{{ item.title | liquify }}</a></li>
+      {% else %}
+        <li><a href="{{ item.url | relative_url }}">{{ item.title | liquify }}</a></li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</ul>

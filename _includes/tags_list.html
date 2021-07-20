@@ -1,0 +1,9 @@
+<ul>
+  {% for tag in site.tags limit:include.limit %}
+    {% if tag.first == page.tag %}
+      <li><a href="{{ tag.first | tag_url }}">{{ tag.first }}</a></li>
+    {% else %}
+      <li><a href="{{ tag.first | tag_url }}">{{ tag.first }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>

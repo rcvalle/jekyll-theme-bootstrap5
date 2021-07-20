@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+  <div class="container-fluid">
+    {% if page.type == "home" and paginator.page == 1 %}
+      <a href="{{ "/" | relative_url }}" class="navbar-brand">{{ site.title | liquify }}</a>
+    {% else %}
+      <a href="{{ "/" | relative_url }}" class="navbar-brand">{{ site.title | liquify }}</a>
+    {% endif %}
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav me-auto">
+        {% assign pages = site.pages | sort: 'title' %}
+        {% for item in pages %}
+          {% if item.type == "page" %}
+            {% if item.title == page.title %}
+              <a href="{{ item.url | relative_url }}" class="nav-item nav-link active">{{ item.title | liquify }}</a>
+            {% else %}
+              <a href="{{ item.url | relative_url }}" class="nav-item nav-link">{{ item.title | liquify }}</a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</nav>

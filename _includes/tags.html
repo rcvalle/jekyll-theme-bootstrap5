@@ -1,0 +1,17 @@
+{% if include.post.tags %}
+  <span itemprop="keywords">
+    {% if include.post.tags.size == 1 %}
+      <a href="{{ include.post.tags.first | tag_url }}">{{ include.post.tags.first }}.</a>
+    {% else %}
+      {% assign penultimate = include.post.tags.size | minus: 2 %}
+      {% for i in (0..penultimate) %}
+        {% if include.post.tags.size == 2 %}
+          <a href="{{ include.post.tags[i] | tag_url }}">{{ include.post.tags[i] }}</a>
+        {% else %}
+          <a href="{{ include.post.tags[i] | tag_url }}">{{ include.post.tags[i] }},</a>
+        {% endif %}
+      {% endfor %}
+      and <a href="{{ include.post.tags.last | tag_url }}">{{ include.post.tags.last }}.</a>
+    {% endif %}
+  </span>
+{% endif %}

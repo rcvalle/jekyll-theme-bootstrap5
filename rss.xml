@@ -1,0 +1,32 @@
+---
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title }}</title>
+    <link>{{ site.url }}</link>
+    <description>{{ site.description }}</description>
+    {% if site.copyright %}
+      <copyright>{{ site.copyright }}</copyright>
+    {% endif %}
+    <pubDate>{{ site.posts.first.date | date_to_rfc822 }}</pubDate>
+    <lastBuildDate>{{ site.posts.first.date | date_to_rfc822 }}</lastBuildDate>
+    <atom:link href="{{ page.url | absolute_url }}" rel="self"/>
+    {% for post in site.posts %}
+      <item>
+        <title>{{ post.title }}</title>
+        <link>{{ post.url | absolute_url }}</link>
+        <description>
+          {{ post.content | xml_escape }}
+        </description>
+        {% for category in post.categories %}
+          <category>{{ category | capitalize }}</category>
+        {% endfor %}
+        <comments>{{ post.url | absolute_url }}#disqus_thread</comments>
+        <guid>{{ post.url | absolute_url }}</guid>
+        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+        <source url="{{ page.url | absolute_url }}">{{ site.title }}</source>
+      </item>
+    {% endfor %}
+  </channel>
+</rss>

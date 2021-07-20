@@ -1,0 +1,18 @@
+<aside>
+  <nav>
+    <h1>Categories</h1>
+    {% include categories_list.html %}
+  </nav>
+  <nav>
+    <h1>Pages</h1>
+    {% include pages_list.html %}
+  </nav>
+  <nav>
+    <h1>Posts</h1>
+    {% include posts_list.html limit=5 %}
+  </nav>
+  <nav>
+    <h1>Tags</h1>
+    {% include tags_list.html limit=5 %}
+  </nav>
+</aside>

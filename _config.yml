@@ -1,0 +1,17 @@
+author: Ramon de C Valle
+baseurl: /jekyll-theme-bootstrap5
+description: A Bootstrap-based Jekyll theme.
+excerpts: true
+exclude:
+  - "*.gemspec"
+  - "CONTRIBUTING*"
+  - "Gemfile*"
+  - "LICENSE*"
+  - "README*"
+paginate: 3
+paginate_path: /pages/:num/
+permalink: /:year/:month/:day/:title/
+plugins:
+  - jekyll-paginate
+title: Title
+url: https://rcvalle.github.io

@@ -1,0 +1,18 @@
+---
+layout: default
+type: tag
+---
+
+<div class="row">
+  <div class="col">
+    <main>
+      {% for post in site.tags[page.tag] %}
+        <div class="row">
+          <div class="col">
+            {% include post.html post=post %}
+          </div>
+        </div>
+      {% endfor %}
+    </main>
+  </div>
+</div>

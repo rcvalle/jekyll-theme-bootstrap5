@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <base href="{{ site.baseurl }}">
+    <title>{{ page.title | liquify }}</title>
+    <link href="{{ "/atom.xml" | relative_url }}" rel="alternate" type="application/atom+xml">
+    <link href="{{ "/rss.xml" | relative_url }}" rel="alternate" type="application/rss+xml">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" crossorigin="anonymous" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" crossorigin="anonymous" rel="stylesheet">
+    {% if site.author %}
+      <meta name="author" content="{{ site.author }}">
+    {% endif %}
+    {% if site.description %}
+      <meta name="description" content="{{ site.description }}">
+    {% endif %}
+  </head>
+  <body>
+    {% include navigation.html %}
+    <div class="container my-3 my-lg-5">
+      {{ content }}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    {% include analytics.html %}
+    {% include disqus_count.html %}
+  </body>
+</html>

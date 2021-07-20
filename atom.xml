@@ -1,0 +1,36 @@
+---
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>{{ "/" | absolute_url }}</id>
+  <link href="{{ site.url }}"/>
+  <link href="{{ page.url | absolute_url }}" rel="self"/>
+  {% if site.copyright %}
+    <rights>{{ site.copyright }}</rights>
+  {% endif %}
+  <subtitle>{{ site.description }}</subtitle>
+  <title>{{ site.title }}</title>
+  <updated>{{ site.posts.first.date | date_to_xmlschema }}</updated>
+  {% for post in site.posts %}
+    <entry>
+      <author>
+        <name>{{ post.author }}</name>
+      </author>
+      {% for category in post.categories %}
+        <category term="{{ category | capitalize }}"/>
+      {% endfor %}
+      <content type="html">
+        {{ post.content | xml_escape }}
+      </content>
+      <id>{{ post.url | absolute_url }}</id>
+      <link href="{{ post.url | absolute_url }}"/>
+      <published>{{ post.date | date_to_xmlschema }}</published>
+      <title>{{ post.title }}</title>
+      {% if post.updated %}
+        <updated>{{ post.updated | date_to_xmlschema }}</updated>
+      {% else %}
+        <updated>{{ post.date | date_to_xmlschema }}</updated>
+      {% endif %}
+    </entry>
+  {% endfor %}
+</feed>

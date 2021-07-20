@@ -1,0 +1,17 @@
+{% if include.post.categories %}
+  <span>
+    {% if include.post.categories.size == 1 %}
+      <a href="{{ include.post.categories.first | category_url }}">{{ include.post.categories.first | capitalize }}.</a>
+    {% else %}
+      {% assign penultimate = include.post.categories.size | minus: 2 %}
+      {% for i in (0..penultimate) %}
+        {% if include.post.categories.size == 2 %}
+          <a href="{{ include.post.categories[i] | category_url }}">{{ include.post.categories[i] | capitalize }}</a>
+        {% else %}
+          <a href="{{ include.post.categories[i] | category_url }}">{{ include.post.categories[i] | capitalize }},</a>
+        {% endif %}
+      {% endfor %}
+      and <a href="{{ include.post.categories.last | category_url }}">{{ include.post.categories.last | capitalize }}.</a>
+    {% endif %}
+  </span>
+{% endif %}
