@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
-  <div class="container-fluid">
+  <div class="container-md">
     {% if page.type == "home" and paginator.page == 1 %}
       <a href="{{ "/" | relative_url }}" class="navbar-brand">{{ site.title | liquify }}</a>
     {% else %}
