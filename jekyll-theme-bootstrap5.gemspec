@@ -13,9 +13,10 @@ Gem::Specification.new do |spec|
   spec.license     = 'MIT'
   spec.metadata    = {}
 
-  spec.add_development_dependency "bundler", "~> 2.1"
+  spec.add_development_dependency "bundler", "~> 2.3"
   spec.add_development_dependency "rake", "~> 13.0"
-  spec.add_runtime_dependency "jekyll", "~> 4.1"
+  spec.add_development_dependency "webrick", "~> 1.7"
+  spec.add_runtime_dependency "jekyll", "~> 4.2"
   spec.add_runtime_dependency "jekyll-paginate", "~> 1.1"
   spec.add_runtime_dependency "kramdown-parser-gfm", "~> 1.1"
   spec.required_ruby_version = '>= 2.3.0'
