@@ -4,12 +4,12 @@ module Jekyll
       @site = site
       @base = base
       @dir = dir
-      @name = 'index.html'
+      @name = "index.html"
 
-      self.process(@name)
-      self.read_yaml(File.join(base, '_layouts'), 'tag.html')
-      self.data['tag'] = tag
-      self.data['title'] = "Posts tagged with &#8220;#{tag}&#8221;"
+      process(@name)
+      read_yaml(File.join(base, "_layouts"), "tag.html")
+      data["tag"] = tag
+      data["title"] = "Posts tagged with &#8220;#{tag}&#8221;"
     end
   end
 
@@ -17,9 +17,12 @@ module Jekyll
     safe true
 
     def generate(site)
-      if site.layouts.key?('tag')
-        dir = site.config['tags_dir'] || 'tags'
-        site.tags.keys.each { |tag| site.pages << TagPage.new(site, site.source, File.join(dir, tag.tr(' ', '-')), tag) }
+      if site.layouts.key?("tag")
+        dir = site.config["tags_dir"] || "tags"
+        site.tags.keys.each do |tag|
+          page = TagPage.new(site, site.source, File.join(dir, tag.tr(" ", "-")), tag)
+          site.pages << page
+        end
       end
     end
   end
