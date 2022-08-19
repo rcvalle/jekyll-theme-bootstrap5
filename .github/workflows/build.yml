@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Set up Ruby
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
 
-      - name: Install dependencies
-        run: bundle install
-
-      - name: Run tests
-        run: bundle exec jekyll build
+      - name: Build
+        run: |
+          bundle install
+          bundle exec jekyll build
