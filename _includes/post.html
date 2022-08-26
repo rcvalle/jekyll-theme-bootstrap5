@@ -4,7 +4,7 @@
   <div itemprop="articleBody">
     {% if page.type == "home" and site.excerpts %}
       {{ include.post.excerpt | markdownify }}
-      <p><a href="{{ post.url }}">Read more&hellip;</a></p>
+      <p><a href="{{ include.post.url | relative_url }}">Read more&hellip;</a></p>
     {% else %}
       {{ include.post.content | markdownify }}
     {% endif %}
