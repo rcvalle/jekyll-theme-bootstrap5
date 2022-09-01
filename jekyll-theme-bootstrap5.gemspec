@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.license     = 'MIT'
   spec.metadata    = {}
 
-  spec.add_development_dependency "bundler", "~> 2.3"
+  spec.add_development_dependency "bundler", "~> 2.1"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "webrick", "~> 1.7"
   spec.add_runtime_dependency "jekyll", "~> 4.2"
