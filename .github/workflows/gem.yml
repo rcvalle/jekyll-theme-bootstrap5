@@ -1,12 +1,30 @@
 name: gem
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: main
+
+  workflow_dispatch:
+    inputs:
+      version_increment:
+        description: 'Version to increment'
+        required: true
+        default: 'patch'
+        options:
+          - major
+          - minor
+          - patch
 
 jobs:
   build:
     name: Build and publish
+
+    permissions:
+      contents: write
+      id-token: write
+      packages: write
+      pages: write
+
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +38,69 @@ jobs:
         run: |
           bundle install
           gem build *.gemspec
+
+      - name: Update version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version_increment="${{ github.event.inputs.version_increment }}"
+          version_increment="${version_increment:-patch}"
+
+          if [[ "$version_increment" == "patch" ]]; then
+            commit_message=$(git log -1 --pretty=%B)
+            if [[ "$commit_message" =~ Version-increment:\ (major|minor|patch) ]]; then
+              version_increment="${BASH_REMATCH[1]}"
+            fi
+          fi
+
+          version=$(grep -E "Version = \[([0-9]+), ([0-9]+), ([0-9]+)\]" *.gemspec)
+          major=$(echo "$version" | grep -Eo '\[[0-9]+' | tr -d '[')
+          minor=$(echo "$version" | grep -Eo ', [0-9]+,' | tr -d ', ')
+          patch=$(echo "$version" | grep -Eo ', [0-9]+\]' | tr -d ', ]')
+
+          case $version_increment in
+            major)
+              new_major=$((major + 1))
+              new_minor=0
+              new_patch=0
+              ;;
+            minor)
+              new_major=$((major))
+              new_minor=$((minor + 1))
+              new_patch=0
+              ;;
+            patch)
+              new_major=$((major))
+              new_minor=$((minor))
+              new_patch=$((patch + 1))
+              ;;
+          esac
+
+          new_version="Version = [$new_major, $new_minor, $new_patch]"
+          sed -i "s/^Version = \[.*\]/${new_version}/" *.gemspec
+
+          echo "version=$major.$minor.$patch" >> $GITHUB_ENV
+          echo "new_version=$new_major.$new_minor.$new_patch" >> $GITHUB_ENV
+
+          git config --global user.email "rcvalle@users.noreply.github.com"
+          git config --global user.name "Ramon de C Valle"
+          git add *.gemspec
+          git commit -m "Update version to $new_major.$new_minor.$new_patch"
+          git push origin main
+
+      - name: Create new release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          changelog=$(mktemp)
+          if [[ "${{ env.version }}" != "0.0.0" ]]; then
+            git fetch --all -t
+            git log "v${{ env.version }}"..HEAD --pretty='format:* %s' > "$changelog"
+          else
+            git log --pretty='format:* %s' > "$changelog"
+          fi
+          gh release create "v${{ env.new_version }}" -F "$changelog" -t "v${{ env.new_version }}"
+          rm "$changelog"
 
       - name: Publish to GitHub Packages
         env:
