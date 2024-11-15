@@ -53,10 +53,10 @@ jobs:
             fi
           fi
 
-          version=$(grep -E "Version = \[([0-9]+), ([0-9]+), ([0-9]+)\]" *.gemspec)
-          major=$(echo "$version" | grep -Eo '\[[0-9]+' | tr -d '[')
-          minor=$(echo "$version" | grep -Eo ', [0-9]+,' | tr -d ', ')
-          patch=$(echo "$version" | grep -Eo ', [0-9]+\]' | tr -d ', ]')
+          version=$(grep -E "Version = \[[0-9]+, [0-9]+, [0-9]+\]" *.gemspec | grep -Eo '\[[0-9]+, [0-9]+, [0-9]+\]' | tr -d '[]')
+          major=$(echo "$version" | cut -d, -f1 | tr -d ' ')
+          minor=$(echo "$version" | cut -d, -f2 | tr -d ' ')
+          patch=$(echo "$version" | cut -d, -f3 | tr -d ' ')
 
           case $version_increment in
             major)
@@ -76,8 +76,8 @@ jobs:
               ;;
           esac
 
-          new_version="Version = [$new_major, $new_minor, $new_patch]"
-          sed -i "s/^Version = \[.*\]/${new_version}/" *.gemspec
+          new_version="${new_major}, ${new_minor}, ${new_patch}"
+          sed -i -E "s/(Version = \[)[0-9]+, [0-9]+, [0-9]+/\1${new_version}/" *.gemspec
 
           echo "version=$major.$minor.$patch" >> $GITHUB_ENV
           echo "new_version=$new_major.$new_minor.$new_patch" >> $GITHUB_ENV
@@ -101,6 +101,11 @@ jobs:
           fi
           gh release create "v${{ env.new_version }}" -F "$changelog" -t "v${{ env.new_version }}"
           rm "$changelog"
+
+      - name: Build
+        run: |
+          bundle install
+          gem build *.gemspec
 
       - name: Publish to GitHub Packages
         env:
